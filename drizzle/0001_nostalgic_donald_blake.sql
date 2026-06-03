@@ -1,0 +1,1 @@
+ALTER TABLE "explanations" ADD COLUMN "is_correct" boolean;

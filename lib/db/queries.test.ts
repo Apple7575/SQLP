@@ -11,8 +11,8 @@ const session: SessionInput = {
     problem_number: 5, chapter: 0, problem_text: 'p', solution_text: 's',
     syllabus_area: 'SQL 고급 활용 및 튜닝', concepts: ['인덱스'],
     explanations: [
-      { speaker: '나', transcript: 't1', understanding: '애매', concepts_covered: ['인덱스'], concepts_missed: [], errors: [], feedback: 'f1' },
-      { speaker: '민수', transcript: 't2', understanding: '잘함', concepts_covered: ['인덱스'], concepts_missed: [], errors: [], feedback: 'f2' },
+      { speaker: '나', transcript: 't1', understanding: '애매', concepts_covered: ['인덱스'], concepts_missed: [], errors: [], feedback: 'f1', is_correct: true },
+      { speaker: '민수', transcript: 't2', understanding: '잘함', concepts_covered: ['인덱스'], concepts_missed: [], errors: [], feedback: 'f2', is_correct: false },
     ],
   }],
 }
@@ -40,6 +40,7 @@ describe('ingestSession', () => {
     expect(records).toHaveLength(2)
     expect(records[0].problemConcepts).toEqual(['인덱스'])
     expect(records[0].syllabusArea).toBe('SQL 고급 활용 및 튜닝')
+    expect(typeof records[0].isCorrect).toBe('boolean')
   })
 })
 
@@ -53,5 +54,6 @@ describe('getProblemsWithExplanations', () => {
     expect(out[0].solutionText).toBe('s')
     expect(out[0].explanations).toHaveLength(2)
     expect(out[0].explanations[0].sessionDate).toBe('2026-06-04')
+    expect(out[0].explanations[0]).toHaveProperty('isCorrect')
   })
 })

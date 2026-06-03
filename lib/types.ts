@@ -18,6 +18,7 @@ export interface Explanation {
   concepts_missed: string[]
   errors: string[]
   feedback: string
+  is_correct?: boolean | null // 객관식 정답 여부 (null = 해당 없음/미기재)
 }
 
 export interface ProblemInput {

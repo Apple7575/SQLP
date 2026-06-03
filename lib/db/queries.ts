@@ -42,6 +42,7 @@ export async function ingestSession(db: DB, input: SessionInput): Promise<{ sess
           sessionId: session.id, problemId, speaker: e.speaker, transcript: e.transcript,
           understanding: e.understanding, conceptsCovered: e.concepts_covered,
           conceptsMissed: e.concepts_missed, errors: e.errors, feedback: e.feedback,
+          isCorrect: e.is_correct ?? null,
         })
       }
     }
@@ -64,6 +65,7 @@ export async function getAllRecords(db: DB): Promise<ExplanationRecord[]> {
       conceptsMissed: explanations.conceptsMissed,
       errors: explanations.errors,
       feedback: explanations.feedback,
+      isCorrect: explanations.isCorrect,
       transcript: explanations.transcript,
     })
     .from(explanations)
@@ -88,6 +90,7 @@ export interface ProblemDetail {
     understanding: Understanding
     conceptsMissed: string[]
     feedback: string
+    isCorrect: boolean | null
     sessionDate: string
   }[]
 }
@@ -108,6 +111,7 @@ export async function getProblemsWithExplanations(db: DB): Promise<ProblemDetail
       understanding: explanations.understanding,
       conceptsMissed: explanations.conceptsMissed,
       feedback: explanations.feedback,
+      isCorrect: explanations.isCorrect,
       sessionDate: sessions.sessionDate,
     })
     .from(problems)
@@ -126,7 +130,8 @@ export async function getProblemsWithExplanations(db: DB): Promise<ProblemDetail
     byId.get(r.id)!.explanations.push({
       speaker: r.speaker, transcript: r.transcript,
       understanding: r.understanding as Understanding,
-      conceptsMissed: r.conceptsMissed, feedback: r.feedback, sessionDate: r.sessionDate,
+      conceptsMissed: r.conceptsMissed, feedback: r.feedback,
+      isCorrect: r.isCorrect, sessionDate: r.sessionDate,
     })
   }
   return [...byId.values()].sort((a, b) =>

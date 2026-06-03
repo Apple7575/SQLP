@@ -13,6 +13,7 @@ export interface ExplanationRecord {
   conceptsMissed: string[]
   errors: string[]
   feedback: string
+  isCorrect?: boolean | null
   transcript: string
 }
 

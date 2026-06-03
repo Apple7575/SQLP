@@ -8,6 +8,7 @@ export const explanationSchema = z.object({
   concepts_missed: z.array(z.string()).default([]),
   errors: z.array(z.string()).default([]),
   feedback: z.string().default(''),
+  is_correct: z.boolean().nullable().optional(),
 })
 
 export const problemSchema = z.object({

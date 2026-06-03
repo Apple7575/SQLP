@@ -1,4 +1,4 @@
-import { pgTable, uuid, text, integer, date, timestamp, jsonb, unique } from 'drizzle-orm/pg-core'
+import { pgTable, uuid, text, integer, date, timestamp, jsonb, unique, boolean } from 'drizzle-orm/pg-core'
 
 export const problems = pgTable(
   'problems',
@@ -34,4 +34,5 @@ export const explanations = pgTable('explanations', {
   conceptsMissed: jsonb('concepts_missed').$type<string[]>().notNull().default([]),
   errors: jsonb('errors').$type<string[]>().notNull().default([]),
   feedback: text('feedback').notNull().default(''),
+  isCorrect: boolean('is_correct'),
 })
