@@ -72,3 +72,64 @@ export async function getAllRecords(db: DB): Promise<ExplanationRecord[]> {
 
   return rows.map(r => ({ ...r, understanding: r.understanding as Understanding }))
 }
+
+export interface ProblemDetail {
+  id: string
+  book: string
+  chapter: number
+  problemNumber: number
+  problemText: string
+  solutionText: string
+  syllabusArea: string
+  concepts: string[]
+  explanations: {
+    speaker: string
+    transcript: string
+    understanding: Understanding
+    conceptsMissed: string[]
+    feedback: string
+    sessionDate: string
+  }[]
+}
+
+export async function getProblemsWithExplanations(db: DB): Promise<ProblemDetail[]> {
+  const rows = await db
+    .select({
+      id: problems.id,
+      book: problems.book,
+      chapter: problems.chapter,
+      problemNumber: problems.problemNumber,
+      problemText: problems.problemText,
+      solutionText: problems.solutionText,
+      syllabusArea: problems.syllabusArea,
+      concepts: problems.concepts,
+      speaker: explanations.speaker,
+      transcript: explanations.transcript,
+      understanding: explanations.understanding,
+      conceptsMissed: explanations.conceptsMissed,
+      feedback: explanations.feedback,
+      sessionDate: sessions.sessionDate,
+    })
+    .from(problems)
+    .innerJoin(explanations, eq(explanations.problemId, problems.id))
+    .innerJoin(sessions, eq(explanations.sessionId, sessions.id))
+
+  const byId = new Map<string, ProblemDetail>()
+  for (const r of rows) {
+    if (!byId.has(r.id)) {
+      byId.set(r.id, {
+        id: r.id, book: r.book, chapter: r.chapter, problemNumber: r.problemNumber,
+        problemText: r.problemText, solutionText: r.solutionText,
+        syllabusArea: r.syllabusArea, concepts: r.concepts, explanations: [],
+      })
+    }
+    byId.get(r.id)!.explanations.push({
+      speaker: r.speaker, transcript: r.transcript,
+      understanding: r.understanding as Understanding,
+      conceptsMissed: r.conceptsMissed, feedback: r.feedback, sessionDate: r.sessionDate,
+    })
+  }
+  return [...byId.values()].sort((a, b) =>
+    a.book === b.book ? a.chapter - b.chapter || a.problemNumber - b.problemNumber : a.book < b.book ? -1 : 1,
+  )
+}

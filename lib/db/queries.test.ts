@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { createTestDb } from '@/test/helpers/testDb'
 import { ingestSession, getAllRecords } from './queries'
+import { getProblemsWithExplanations } from './queries'
 import { problems, explanations } from './schema'
 import type { SessionInput } from '@/lib/types'
 
@@ -39,5 +40,18 @@ describe('ingestSession', () => {
     expect(records).toHaveLength(2)
     expect(records[0].problemConcepts).toEqual(['인덱스'])
     expect(records[0].syllabusArea).toBe('SQL 고급 활용 및 튜닝')
+  })
+})
+
+describe('getProblemsWithExplanations', () => {
+  it('groups explanations under their problem with text and solution', async () => {
+    const db = await createTestDb()
+    await ingestSession(db, session)
+    const out = await getProblemsWithExplanations(db)
+    expect(out).toHaveLength(1)
+    expect(out[0].problemText).toBe('p')
+    expect(out[0].solutionText).toBe('s')
+    expect(out[0].explanations).toHaveLength(2)
+    expect(out[0].explanations[0].sessionDate).toBe('2026-06-04')
   })
 })
