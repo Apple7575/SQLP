@@ -98,7 +98,7 @@ export default function SessionsPage() {
                 <div className="border-t px-4 pb-3">
                   <div className="divide-y">
                     {g.problems.map(p => (
-                      <div key={p.key} className="flex flex-wrap items-center gap-x-3 gap-y-1 py-2 text-sm">
+                      <div key={p.key} className="flex items-center gap-x-3 py-2 text-sm">
                         <span className="w-14 shrink-0 font-medium">{p.label}</span>
                         <span className="min-w-0 flex-1 truncate text-xs text-muted-foreground">{p.area}</span>
                         <div className="flex shrink-0 flex-wrap gap-2">

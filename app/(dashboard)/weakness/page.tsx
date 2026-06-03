@@ -29,15 +29,15 @@ export default function WeaknessPage() {
   return (
     <div className="space-y-4">
       <h1 className="text-xl font-semibold">약점 분석</h1>
-      <Tabs defaultValue="subject">
+      <Tabs defaultValue="subject" className="w-full min-w-0">
         <TabsList>
           <TabsTrigger value="subject">과목별 문제</TabsTrigger>
           <TabsTrigger value="concept">개념 히트맵</TabsTrigger>
         </TabsList>
-        <TabsContent value="subject">
+        <TabsContent value="subject" className="min-w-0">
           <SubjectView problems={data.problems} />
         </TabsContent>
-        <TabsContent value="concept">
+        <TabsContent value="concept" className="min-w-0">
           <ConceptHeatmap records={data.records} />
         </TabsContent>
       </Tabs>
@@ -71,7 +71,7 @@ function SubjectView({ problems }: { problems: ProblemDetail[] }) {
             </div>
             <div className="divide-y">
               {list.map(p => (
-                <div key={p.id} className="flex flex-wrap items-center gap-x-3 gap-y-1 py-2 text-sm">
+                <div key={p.id} className="flex items-center gap-x-3 py-2 text-sm">
                   <span className="w-14 shrink-0 font-medium">
                     {p.chapter > 0 ? `${p.chapter}장 ` : ''}{p.problemNumber}번
                   </span>
