@@ -5,6 +5,7 @@ import type { ProblemDetail } from '@/lib/db/queries'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { STATUS_TEXT } from '@/lib/client/status'
+import { formatChoices } from '@/lib/client/format'
 
 function label(p: ProblemDetail) {
   return `${p.book} ${p.chapter > 0 ? `${p.chapter}장 ` : ''}${p.problemNumber}번`
@@ -36,11 +37,15 @@ export default function ReviewPage() {
         </label>
         <div className="space-y-1">
           {problems.map(p => (
-            <button key={p.id} onClick={() => setSelectedId(p.id)}
-              className={`block w-full rounded-md px-2 py-1 text-left text-sm ${selected?.id === p.id ? 'bg-muted font-medium' : 'hover:bg-muted/50'}`}>
+            <button
+              key={p.id}
+              onClick={() => setSelectedId(p.id)}
+              className={`block w-full rounded-md px-2 py-1 text-left text-sm ${selected?.id === p.id ? 'bg-muted font-medium' : 'hover:bg-muted/50'}`}
+            >
               {label(p)}
             </button>
           ))}
+          {problems.length === 0 && <p className="px-2 text-sm text-muted-foreground">해당하는 문제가 없습니다.</p>}
         </div>
       </div>
 
@@ -53,7 +58,7 @@ export default function ReviewPage() {
             </div>
             <div>
               <h3 className="text-sm font-medium">문제</h3>
-              <p className="whitespace-pre-wrap text-sm text-muted-foreground">{selected.problemText}</p>
+              <p className="whitespace-pre-wrap text-sm text-muted-foreground">{formatChoices(selected.problemText)}</p>
             </div>
             <div>
               <h3 className="text-sm font-medium">해설</h3>
@@ -67,12 +72,16 @@ export default function ReviewPage() {
                 <div className="flex items-center gap-2 text-sm">
                   <span className="font-medium">{e.speaker}</span>
                   <span className={STATUS_TEXT[e.understanding]}>{e.understanding}</span>
-                  <span className="text-xs text-muted-foreground">{e.sessionDate}</span>
+                  {e.isCorrect === true && <span className="text-xs text-emerald-700">정답</span>}
+                  {e.isCorrect === false && <span className="text-xs text-red-700">오답</span>}
+                  <span className="ml-auto text-xs text-muted-foreground">{e.sessionDate}</span>
                 </div>
                 <p className="whitespace-pre-wrap text-sm text-muted-foreground">{e.transcript}</p>
                 {e.conceptsMissed.length > 0 && (
                   <div className="flex flex-wrap gap-1">
-                    {e.conceptsMissed.map((c, j) => <Badge key={j} variant="outline" className="text-red-600">놓침: {c}</Badge>)}
+                    {e.conceptsMissed.map((c, j) => (
+                      <Badge key={j} variant="outline" className="text-red-600">놓침: {c}</Badge>
+                    ))}
                   </div>
                 )}
                 {e.feedback && <p className="rounded bg-muted/50 p-2 text-xs">{e.feedback}</p>}

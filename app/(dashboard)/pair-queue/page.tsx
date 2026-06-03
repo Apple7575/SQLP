@@ -16,14 +16,18 @@ function Section({ title, hint, items }: { title: string; hint: string; items: P
         <h2 className="font-medium">{title}</h2>
         <p className="text-xs text-muted-foreground">{hint}</p>
       </div>
-      {items.length === 0 ? <p className="text-sm text-muted-foreground">없음 🎉</p> : (
+      {items.length === 0 ? (
+        <p className="text-sm text-muted-foreground">없음 🎉</p>
+      ) : (
         <ul className="space-y-2">
           {items.map(i => (
             <li key={i.concept} className="rounded-md border p-2 text-sm">
               <div className="font-medium">{i.concept}</div>
               {i.kind === 'teach' && <div className="text-xs text-muted-foreground">{i.teacher} → {i.learner} 가르치기</div>}
               <div className="mt-1 flex flex-wrap gap-1">
-                {i.relatedProblems.map((p, idx) => <Badge key={idx} variant="outline">{problemLabel(p)}</Badge>)}
+                {i.relatedProblems.map((p, idx) => (
+                  <Badge key={idx} variant="outline">{problemLabel(p)}</Badge>
+                ))}
               </div>
             </li>
           ))}
@@ -42,16 +46,25 @@ export default function PairQueuePage() {
 
   const teach = queue.filter(i => i.kind === 'teach')
   const both = queue.filter(i => i.kind === 'both_unknown')
-  const speakers = [...new Set(data!.records.map(r => r.speaker))]
+  const speakers = [...new Set((data?.records ?? []).map(r => r.speaker))]
 
   return (
     <div className="space-y-4">
-      <h1 className="text-xl font-semibold">페어 학습 큐</h1>
+      <div>
+        <h1 className="text-xl font-semibold">페어 학습 큐</h1>
+        <p className="mt-1 text-sm text-muted-foreground">
+          한 명은 잘 알고(잘함) 다른 한 명은 모르는(모름) 개념을 찾아, <strong>다음 스터디에서 누가 누구에게 무엇을 설명하면 되는지</strong> 알려줍니다.
+          서로 가르치면(Feynman) 가장 빨리 이해돼요. 둘 다 모르는 개념은 같이 PDF를 다시 읽어야 할 신호입니다.
+        </p>
+      </div>
+      {queue.length === 0 && (
+        <p className="text-sm text-muted-foreground">아직 큐가 없습니다. 한 사람이 &quot;잘함&quot;, 다른 사람이 &quot;모름&quot;인 개념이 생기면 여기에 나타납니다.</p>
+      )}
       <div className="grid gap-4 md:grid-cols-2">
         {speakers.map(s => (
-          <Section key={s} title={`${s}가 가르치기`} hint={`${s}는 잘함, 상대는 모름`} items={teach.filter(i => i.teacher === s)} />
+          <Section key={s} title={`${s}가 가르치기`} hint={`${s}는 잘함, 상대는 모름인 개념`} items={teach.filter(i => i.teacher === s)} />
         ))}
-        <Section title="🔴 둘 다 모름" hint="PDF 다시 읽어야 할 개념" items={both} />
+        <Section title="🔴 둘 다 모름" hint="같이 PDF 다시 읽어야 할 개념" items={both} />
       </div>
     </div>
   )
