@@ -1,0 +1,63 @@
+{
+  "session_date": "2026-06-04",
+  "book": "문제집A",
+  "speakers": ["나", "민수"],
+  "problems": [
+    {
+      "problem_number": 5,
+      "chapter": 2,
+      "problem_text": "다음 SQL의 실행계획에서 인덱스가 사용되지 않는 이유는?",
+      "solution_text": "선택성이 낮아 옵티마이저가 풀스캔을 택함. 통계 정보와 히스토그램을 함께 고려.",
+      "syllabus_area": "SQL 고급 활용 및 튜닝",
+      "concepts": ["인덱스 선택성", "옵티마이저 통계", "히스토그램"],
+      "explanations": [
+        {
+          "speaker": "나",
+          "transcript": "선택성이 낮아서 인덱스를 안 타는 것 같아요.",
+          "understanding": "애매",
+          "concepts_covered": ["인덱스 선택성"],
+          "concepts_missed": ["옵티마이저 통계", "히스토그램"],
+          "errors": ["풀스캔이 항상 느리다고 잘못 말함"],
+          "feedback": "선택성은 맞았으나 통계/히스토그램 언급 누락"
+        },
+        {
+          "speaker": "민수",
+          "transcript": "선택성, 통계, 히스토그램까지 고려해야 합니다.",
+          "understanding": "잘함",
+          "concepts_covered": ["인덱스 선택성", "옵티마이저 통계", "히스토그램"],
+          "concepts_missed": [],
+          "errors": [],
+          "feedback": "핵심 모두 짚음"
+        }
+      ]
+    },
+    {
+      "problem_number": 6,
+      "chapter": 2,
+      "problem_text": "정규화 3NF의 정의는?",
+      "solution_text": "이행적 함수 종속을 제거한 상태.",
+      "syllabus_area": "데이터 모델링의 이해",
+      "concepts": ["정규화", "이행적 종속"],
+      "explanations": [
+        {
+          "speaker": "나",
+          "transcript": "이행적 종속을 없앤 거요.",
+          "understanding": "잘함",
+          "concepts_covered": ["정규화", "이행적 종속"],
+          "concepts_missed": [],
+          "errors": [],
+          "feedback": "정확"
+        },
+        {
+          "speaker": "민수",
+          "transcript": "잘 기억이 안 나요.",
+          "understanding": "모름",
+          "concepts_covered": [],
+          "concepts_missed": ["정규화", "이행적 종속"],
+          "errors": [],
+          "feedback": "복습 필요"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "session_date": "2026-06-09",
+  "book": "문제집A",
+  "speakers": ["나", "민수"],
+  "problems": [
+    {
+      "problem_number": 5,
+      "chapter": 2,
+      "problem_text": "다음 SQL의 실행계획에서 인덱스가 사용되지 않는 이유는?",
+      "solution_text": "선택성이 낮아 옵티마이저가 풀스캔을 택함.",
+      "syllabus_area": "SQL 고급 활용 및 튜닝",
+      "concepts": ["인덱스 선택성", "옵티마이저 통계", "히스토그램"],
+      "explanations": [
+        {
+          "speaker": "나",
+          "transcript": "이제 통계랑 히스토그램까지 다 설명할 수 있어요.",
+          "understanding": "잘함",
+          "concepts_covered": ["인덱스 선택성", "옵티마이저 통계", "히스토그램"],
+          "concepts_missed": [],
+          "errors": [],
+          "feedback": "지난주보다 향상"
+        }
+      ]
+    },
+    {
+      "problem_number": 7,
+      "chapter": 3,
+      "problem_text": "옵티마이저 힌트 사용 시 주의점은?",
+      "solution_text": "힌트는 통계 변화에 취약하므로 남용 금지.",
+      "syllabus_area": "옵티마이저",
+      "concepts": ["힌트"],
+      "explanations": [
+        {
+          "speaker": "민수",
+          "transcript": "힌트는 자주 쓰면 좋아요.",
+          "understanding": "모름",
+          "concepts_covered": [],
+          "concepts_missed": ["힌트"],
+          "errors": ["힌트 남용이 좋다고 잘못 말함"],
+          "feedback": "오개념 교정 필요"
+        }
+      ]
+    }
+  ]
+}

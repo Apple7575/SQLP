@@ -1,36 +1,27 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SQLP 스터디 대시보드
 
-## Getting Started
+친구와의 SQLP 스터디 녹취 + 문제집을 외부 구독 AI로 정리한 JSON을 업로드하면,
+사람·개념별 이해도와 페어 학습 큐를 보여주는 대시보드.
 
-First, run the development server:
+## 로컬 실행
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1. 의존성 설치: `npm install`
+2. `.env.local` 작성 (`.env.example` 참고): `DATABASE_URL`, `SHARED_PASSWORD`, `AUTH_SECRET`
+3. DB 스키마 적용: `npm run db:push`
+4. 개발 서버: `npm run dev` → http://localhost:3000 (공유 비밀번호로 로그인)
+5. `/upload`에서 `fixtures/session-sample-1.json`, 이어서 `session-sample-2.json` 업로드
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 테스트
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+`npm test`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 입력 JSON 양식
 
-## Learn More
+`docs/superpowers/specs/2026-06-03-sqlp-study-dashboard-design.md` 4장 참조.
+샘플: `fixtures/session-sample-*.json`.
 
-To learn more about Next.js, take a look at the following resources:
+## 배포 (Vercel)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Vercel 프로젝트 생성 + Vercel Postgres 추가 → `DATABASE_URL`(`POSTGRES_URL`) 연결
+- 환경변수 `SHARED_PASSWORD`, `AUTH_SECRET` 설정
+- 빌드 전 `npm run db:push`로 스키마 적용 (또는 `drizzle/` 마이그레이션 적용)
